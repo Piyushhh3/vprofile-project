@@ -22,6 +22,24 @@ pipeline {
             steps {
                 sh 'mvn -DskipTests install'
             }
+            post {
+                success {
+                    echo 'Build was successful'
+                    archiveArtifacts artifacts: '**/target/*.jar','**/target/*.war'
+                }
+                
+            }
         }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('checkstyle analysis') {
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+        }
+
     }
 }
