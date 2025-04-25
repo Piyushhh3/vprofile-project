@@ -59,12 +59,9 @@ pipeline {
                 }
             }
         }
-        stage ('slack update'){
-            steps {
-                script {
-                    slackSend channel: 'vpro-cicd', message: 'success'
-                }
+        post {
+            always {
+                slackSend (channel: '#vpro-ci', color: 'good', message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}")
             }
-        }
     }
  }
