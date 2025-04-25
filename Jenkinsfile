@@ -17,7 +17,7 @@ pipeline {
         NEXUS_LOGIN = 'nexuslogin'
         SONARSCANNER = 'sonarscanner'
         SONARSERVER = 'sonarserver'
-        SLACK_CHANNEL = '#vpro-jenkins'
+        SLACK_CHANNEL = '#vpro-cicd'
     }
 
     stages {
