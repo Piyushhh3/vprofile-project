@@ -62,7 +62,7 @@ pipeline {
         }
         post {
             always {
-                slackSend (channel: '#vpro-ci', color: 'good', message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}")
+                slackSend (channel: '#vpro-cicd', color: 'good', message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}")
             }
     }
  }
