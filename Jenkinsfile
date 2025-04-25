@@ -17,6 +17,7 @@ pipeline {
         NEXUS_LOGIN = 'nexuslogin'
         SONARSCANNER = 'sonarscanner'
         SONARSERVER = 'sonarserver'
+        SLACK_CHANNEL = '#vpro-jenkins'
     }
 
     stages {
@@ -61,9 +62,37 @@ pipeline {
         }
         }
         post {
-            always {
-                slackSend (channel: '#vpro-cicd', color: 'good', message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}")
-            }
+        success {
+            slackSend(
+                channel: "${env.SLACK_CHANNEL}",
+                color: 'good',
+                message: "*SUCCESS:* Job `${env.JOB_NAME}` #${env.BUILD_NUMBER} completed successfully. :tada:\n${env.BUILD_URL}"
+            )
+        }
+
+        failure {
+            slackSend(
+                channel: "${env.SLACK_CHANNEL}",
+                color: 'danger',
+                message: "*FAILURE:* Job `${env.JOB_NAME}` #${env.BUILD_NUMBER} failed. :x:\nCheck the logs: ${env.BUILD_URL}"
+            )
+        }
+
+        unstable {
+            slackSend(
+                channel: "${env.SLACK_CHANNEL}",
+                color: 'warning',
+                message: "*UNSTABLE:* Job `${env.JOB_NAME}` #${env.BUILD_NUMBER} is unstable. :warning:\nDetails: ${env.BUILD_URL}"
+            )
+        }
+
+        always {
+            slackSend(
+                channel: "${env.SLACK_CHANNEL}",
+                color: '#439FE0',
+                message: "*BUILD COMPLETED:* `${env.JOB_NAME}` #${env.BUILD_NUMBER}\nStatus: *${currentBuild.currentResult}*\n<${env.BUILD_URL}|View Build>"
+            )
+        }
     }
  }
 
