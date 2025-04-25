@@ -59,5 +59,12 @@ pipeline {
                 }
             }
         }
+        stage ('slack update'){
+            steps {
+                script {
+                    slackSend channel: 'vpro-cicd', message: 'success'
+                }
+            }
+        }
     }
  }
